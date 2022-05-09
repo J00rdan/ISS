@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="520.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminMenuController">
+   <children>
+      <TableView fx:id="tableViewBook" layoutX="43.0" layoutY="46.0" prefHeight="206.0" prefWidth="370.0">
+        <columns>
+          <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="Cod Carte" />
+          <TableColumn fx:id="tableColumnTitle" prefWidth="164.00001525878906" text="Titul" />
+            <TableColumn fx:id="tableColumnAuthor" prefWidth="129.20001220703125" text="Autor" />
+        </columns>
+      </TableView>
+      <TextField layoutX="453.0" layoutY="46.0" prefHeight="25.0" prefWidth="82.0" promptText="Cod Carte" />
+      <TextField layoutX="568.0" layoutY="46.0" prefHeight="25.0" prefWidth="82.0" promptText="Cod Abonat" />
+      <TextField fx:id="titleTextField" layoutX="453.0" layoutY="90.0" prefHeight="25.0" prefWidth="198.0" promptText="Titlu" />
+      <TextField fx:id="authorTextField" layoutX="453.0" layoutY="136.0" prefHeight="25.0" prefWidth="198.0" promptText="Autor" />
+      <Button layoutX="453.0" layoutY="186.0" mnemonicParsing="false" onAction="#addBook" prefHeight="25.0" prefWidth="82.0" text="Adauga" />
+      <Button layoutX="561.0" layoutY="186.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Sterge" />
+      <Button layoutX="695.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Returnare" />
+      <TableView fx:id="tableViewSubscribers" layoutX="43.0" layoutY="277.0" prefHeight="206.0" prefWidth="370.0">
+         <columns>
+            <TableColumn fx:id="tableColumnFName" prefWidth="164.00001525878906" text="Nume" />
+            <TableColumn fx:id="tableColumnLName" prefWidth="129.20001220703125" text="Prenume" />
+            <TableColumn fx:id="tableColumnSId" prefWidth="75.0" text="Cod Abonat" />
+         </columns>
+      </TableView>
+      <TextField fx:id="fNameField" layoutX="462.0" layoutY="277.0" prefHeight="25.0" prefWidth="198.0" promptText="Nume" />
+      <TextField fx:id="lNameField" layoutX="462.0" layoutY="323.0" prefHeight="25.0" prefWidth="198.0" promptText="Prenume" />
+      <Button layoutX="462.0" layoutY="457.0" mnemonicParsing="false" onAction="#addSubscriber" prefHeight="25.0" prefWidth="198.0" text="Generare abonament" />
+      <TextField fx:id="passField" layoutX="462.0" layoutY="367.0" prefHeight="25.0" prefWidth="198.0" promptText="Parola" />
+   </children>
+</AnchorPane>

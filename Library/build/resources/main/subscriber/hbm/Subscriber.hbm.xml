@@ -10,9 +10,9 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="librarian.hbm">
+<hibernate-mapping package="subscriber.hbm">
 
-    <class name="Model.Librarian" table="librarians">
+    <class name="Model.Subscriber" table="subscribers">
         <id name="id" column="id">
             <generator class="increment"/>
         </id>
