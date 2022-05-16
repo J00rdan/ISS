@@ -10,15 +10,14 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="librarian.hbm">
+<hibernate-mapping package="borrow.hbm">
 
-    <class name="Model.Librarian" table="librarians">
+    <class name="Model.Borrow" table="borrows">
         <id name="id" column="id">
             <generator class="increment"/>
         </id>
-        <property name="firstName" column="first_name"/>
-        <property name="lastName" column="last_name"/>
-        <property name="password" column="password"/>
+        <property name="subscriberId" column="subscriber_id"/>
+        <property name="bookId" column="book_id"/>
     </class>
 
 </hibernate-mapping>

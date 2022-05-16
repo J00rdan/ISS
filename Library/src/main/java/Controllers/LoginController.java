@@ -1,5 +1,6 @@
 package Controllers;
 
+import Model.Subscriber;
 import Service.Service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,8 +21,10 @@ public class LoginController{
     private Service srv;
 
     private AdminMenuController adminMenuController;
+    private UserMenuController userMenuController;
 
     Parent mainMenuParent;
+    Parent userMenuParent;
 
     @FXML
     public Button loginButton;
@@ -42,8 +45,16 @@ public class LoginController{
         mainMenuParent = p;
     }
 
+    public void setUserParent(Parent p){
+        userMenuParent = p;
+    }
+
     public void setAdminMenuCtrl(AdminMenuController menuCtrl) {
         this.adminMenuController = menuCtrl;
+    }
+
+    public void setUserMenuController(UserMenuController menuCtrl){
+        this.userMenuController = menuCtrl;
     }
 
     public void adminLogin(ActionEvent actionEvent) {
@@ -72,19 +83,25 @@ public class LoginController{
     public void login(ActionEvent actionEvent){
         int id = Integer.parseInt(usernameField.getText());
         String pass = passwordField.getText().toString();
-        if(srv.login(id, pass)) {
-//            try {
-//                gui.changeSceneToUserMenu();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+
+        Subscriber s = srv.login(id, pass);
+
+        if(s != null) {
+            userMenuController.init();
+            userMenuController.setUser(s);
+            Stage stage = new Stage();
+            stage.setTitle("Menu Window");
+            stage.setScene(new Scene(userMenuParent));
+
+            stage.show();
+            ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
         }
         else{
-            wrongLogin.setMaxWidth(Double.MAX_VALUE);
-            AnchorPane.setLeftAnchor(wrongLogin, 0.0);
-            AnchorPane.setRightAnchor(wrongLogin, 0.0);
-            wrongLogin.setAlignment(Pos.CENTER);
-            wrongLogin.setText("Wrong Login Credentials");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("MPP chat");
+            alert.setHeaderText("Authentication failure");
+            alert.setContentText("Wrong username or password");
+            alert.showAndWait();
 
         }
 

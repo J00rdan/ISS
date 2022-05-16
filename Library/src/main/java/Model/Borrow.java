@@ -12,6 +12,15 @@ public class Borrow {
         this.bookId = bookId;
     }
 
+    public Borrow(int subscriberId, int bookId) {
+        this.subscriberId = subscriberId;
+        this.bookId = bookId;
+    }
+
+    public Borrow(){
+
+    }
+
     public int getId() {
         return id;
     }

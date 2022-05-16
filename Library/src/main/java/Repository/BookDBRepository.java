@@ -139,6 +139,7 @@ public class BookDBRepository implements BookRepository{
 
                     Book book = session.load(Book.class, entity.getId());
                     book.setTitle(entity.getTitle());
+                    book.setBorrowed(entity.isBorrowed());
 
                     tx.commit();
 
@@ -153,5 +154,32 @@ public class BookDBRepository implements BookRepository{
             System.err.println("Exception "+e);
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Iterable<Book> findAvailable() {
+        try {
+            try(Session session = sessionFactory.openSession()) {
+                Transaction tx = null;
+                try {
+                    tx = session.beginTransaction();
+
+                    List<Book> result = session.createQuery("from Book book where book.borrowed = false", Book.class).list();
+                    tx.commit();
+
+                    return result;
+
+                } catch (RuntimeException ex) {
+                    System.err.println("Eroare la findAll "+ex);
+                    if (tx != null)
+                        tx.rollback();
+                }
+            }
+
+        }catch (Exception e){
+            System.err.println("Exception "+e);
+            e.printStackTrace();
+        }
+        return null;
     }
 }

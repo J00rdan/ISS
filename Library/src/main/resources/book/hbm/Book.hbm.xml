@@ -18,6 +18,7 @@
         </id>
         <property name="title" column="title"/>
         <property name="author" column="author"/>
+        <property name="borrowed" column="borrowed"/>
     </class>
 
 </hibernate-mapping>

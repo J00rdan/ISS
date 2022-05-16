@@ -1,33 +1,33 @@
 package Repository;
 
-import Model.Librarian;
-import Model.Subscriber;
+import Model.Book;
+import Model.Borrow;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class SubscriberDBRepository implements SubscriberRepository{
+public class BorrowDBRepository implements BorrowRepository{
     private SessionFactory sessionFactory;
 
-    public SubscriberDBRepository(SessionFactory sessionFactory) {
+    public BorrowDBRepository(SessionFactory sessionFactory) {
         //logger.info("Initializing TeamDBRepository with properties: {} ",props);
         //dbUtils=new JdbcUtils(props);
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public Subscriber findOne(Integer id) {
+    public Borrow findOne(Integer id) {
         try {
             try(Session session = sessionFactory.openSession()) {
                 Transaction tx = null;
                 try {
                     tx = session.beginTransaction();
 
-                    String queryString = "from Subscriber subscriber where subscriber .id = :idP";
+                    String queryString = "from Borrow borrow where borrow.id = :idP";
 
-                    List<Subscriber> result = session.createQuery(queryString, Subscriber.class).setParameter("idP", id).list();
+                    List<Borrow> result = session.createQuery(queryString, Borrow.class).setParameter("idP", id).list();
                     tx.commit();
 
                     if(result.size() == 1){
@@ -49,14 +49,14 @@ public class SubscriberDBRepository implements SubscriberRepository{
     }
 
     @Override
-    public Iterable<Subscriber> findAll() {
+    public Iterable<Borrow> findAll() {
         try {
             try(Session session = sessionFactory.openSession()) {
                 Transaction tx = null;
                 try {
                     tx = session.beginTransaction();
 
-                    List<Subscriber> result = session.createQuery("from Subscriber", Subscriber.class).list();
+                    List<Borrow> result = session.createQuery("from Borrow ", Borrow.class).list();
                     tx.commit();
 
                     return result;
@@ -76,7 +76,7 @@ public class SubscriberDBRepository implements SubscriberRepository{
     }
 
     @Override
-    public void save(Subscriber entity) {
+    public void save(Borrow entity) {
         try {
             try(Session session = sessionFactory.openSession()) {
                 Transaction tx = null;
@@ -101,33 +101,61 @@ public class SubscriberDBRepository implements SubscriberRepository{
     }
 
     @Override
-    public void delete(Integer integer) {
-
-    }
-
-    @Override
-    public void update(Subscriber entity) {
-
-    }
-
-    @Override
-    public Subscriber auth(int id, String pass) {
+    public void delete(Integer id) {
         try {
             try(Session session = sessionFactory.openSession()) {
                 Transaction tx = null;
                 try {
                     tx = session.beginTransaction();
 
-                    List<Subscriber> result = session.createQuery("from Subscriber ", Subscriber.class).list();
+                    String queryString = "from Borrow borrow where borrow.id = :idP";
+
+                    Borrow borrow = session.createQuery(queryString, Borrow.class).setParameter("idP", id).setMaxResults(1).uniqueResult();
+
+                    session.delete(borrow);
+
                     tx.commit();
 
-                    for (Subscriber s :  result) {
-                        if(s.getId() == id && s.getPassword().equals(pass))
-                            return s;
+                } catch (RuntimeException ex) {
+                    System.err.println("Eroare la delete "+ex);
+                    if (tx != null)
+                        tx.rollback();
+                }
+            }
+
+        }catch (Exception e){
+            System.err.println("Exception "+e);
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Borrow entity) {
+
+    }
+
+    @Override
+    public Borrow findBorrow(int idBook, int idSub) {
+        try {
+            try(Session session = sessionFactory.openSession()) {
+                Transaction tx = null;
+                try {
+                    tx = session.beginTransaction();
+
+                    String queryString = "from Borrow borrow where borrow.subscriberId = :idS and borrow.bookId = :idB";
+
+                    List<Borrow> result = session.createQuery(queryString, Borrow.class).setParameter("idS", idSub).setParameter("idB", idBook).list();
+
+                    System.out.println(result);
+
+                    if(result.size() == 1){
+                        return result.get(0);
                     }
 
+                    tx.commit();
+
                 } catch (RuntimeException ex) {
-                    System.err.println("Eroare la auth "+ex);
+                    System.err.println("Eroare la delete "+ex);
                     if (tx != null)
                         tx.rollback();
                 }

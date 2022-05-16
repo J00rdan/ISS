@@ -5,6 +5,7 @@ import Controllers.LoginController;
 import Controllers.UserMenuController;
 import Model.Subscriber;
 import Repository.BookDBRepository;
+import Repository.BorrowDBRepository;
 import Repository.LibrarianDBRepository;
 import Repository.SubscriberDBRepository;
 import Service.Service;
@@ -64,8 +65,9 @@ public class HelloApplication extends Application {
         LibrarianDBRepository librarianDBRepository = new LibrarianDBRepository((sessionFactory));
         BookDBRepository bookDBRepository = new BookDBRepository(sessionFactory);
         SubscriberDBRepository subscriberDBRepository = new SubscriberDBRepository(sessionFactory);
+        BorrowDBRepository borrowDBRepository = new BorrowDBRepository(sessionFactory);
 
-        Service srv = new Service(librarianDBRepository, bookDBRepository, subscriberDBRepository);
+        Service srv = new Service(librarianDBRepository, bookDBRepository, subscriberDBRepository, borrowDBRepository);
 
         stage = primaryStage;
 
@@ -100,8 +102,19 @@ public class HelloApplication extends Application {
                 cloader.<AdminMenuController>getController();
         adminMenuController.setService(srv);
 
+        FXMLLoader userLoader = new FXMLLoader(
+                getClass().getClassLoader().getResource("UserMenu.fxml"));
+        Parent uroot=userLoader.load();
+
+
+        UserMenuController userMenuController = userLoader.<UserMenuController>getController();
+        userMenuController.setService(srv);
+
         ctrl.setAdminMenuCtrl(adminMenuController);
         ctrl.setParent(croot);
+
+        ctrl.setUserMenuController(userMenuController);
+        ctrl.setUserParent(uroot);
 
         primaryStage.setTitle("MPP chat");
         primaryStage.setScene(new Scene(root));

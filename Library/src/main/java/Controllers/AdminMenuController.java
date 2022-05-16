@@ -1,11 +1,13 @@
 package Controllers;
 
 import Model.Book;
+import Model.Borrow;
 import Model.Subscriber;
 import Service.Service;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -27,6 +29,8 @@ public class AdminMenuController{
     public TableColumn<Book, String> tableColumnTitle;
     @FXML
     public TableColumn<Book, String> tableColumnAuthor;
+    @FXML
+    public TableColumn<Book, String> tableColumnBorrow;
 
     @FXML
     public TableView<Book> tableViewBook;
@@ -38,9 +42,14 @@ public class AdminMenuController{
     @FXML
     public TableColumn<Subscriber, String> tableColumnLName;
 
+
     @FXML
     public TableView<Subscriber> tableViewSubscribers;
 
+    @FXML
+    public TextField idBookTextField;
+    @FXML
+    public TextField idSubTextField;
     @FXML
     public TextField titleTextField;
     @FXML
@@ -83,6 +92,7 @@ public class AdminMenuController{
         tableColumnId.setCellValueFactory(new PropertyValueFactory<Book, String>("Id"));
         tableColumnTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("Title"));
         tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("Author"));
+        tableColumnBorrow.setCellValueFactory(new PropertyValueFactory<Book, String>("Borrowed"));
         tableViewBook.setItems(model);
     }
 
@@ -106,6 +116,15 @@ public class AdminMenuController{
         tableColumnFName.setCellValueFactory(new PropertyValueFactory<Subscriber, String>("FirstName"));
         tableColumnLName.setCellValueFactory(new PropertyValueFactory<Subscriber, String>("LastName"));
         tableViewSubscribers.setItems(model2);
+    }
+
+    public void onSelectingItem(javafx.scene.input.MouseEvent mouseEvent) {
+        if (tableViewBook.getSelectionModel().getSelectedItem() != null) {
+            Book b = tableViewBook.getSelectionModel().getSelectedItem();
+            idBookTextField.setText(String.valueOf(b.getId()));
+            titleTextField.setText(b.getTitle());
+            authorTextField.setText(b.getAuthor());
+        }
     }
 
     public void addBook(){
@@ -134,6 +153,44 @@ public class AdminMenuController{
         fNameField.clear();
         lNameField.clear();
         passField.clear();
+    }
+
+    public void deleteBook(){
+        int id = Integer.parseInt(idBookTextField.getText());
+        String title = titleTextField.getText();
+        String author = authorTextField.getText();
+
+        Book book = new Book(id, title, author);
+
+        srv.deleteBook(book);
+
+        init();
+        idBookTextField.clear();
+        titleTextField.clear();
+        authorTextField.clear();
+    }
+
+    public void returnBook(){
+        int bookId = Integer.parseInt(idBookTextField.getText());
+        int userId = Integer.parseInt(idSubTextField.getText());
+
+        Borrow borrow = new Borrow(userId, bookId);
+        try{
+            srv.returnBook(borrow);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Return failure");
+            alert.setContentText("Wrong username");
+            alert.showAndWait();
+        }
+
+
+        init();
+        idBookTextField.clear();
+        idSubTextField.clear();
+        titleTextField.clear();
+        authorTextField.clear();
     }
 
 }

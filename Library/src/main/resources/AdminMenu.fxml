@@ -8,20 +8,21 @@
 
 <AnchorPane prefHeight="520.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminMenuController">
    <children>
-      <TableView fx:id="tableViewBook" layoutX="43.0" layoutY="46.0" prefHeight="206.0" prefWidth="370.0">
+      <TableView fx:id="tableViewBook" layoutX="43.0" layoutY="46.0" onMouseClicked="#onSelectingItem" prefHeight="206.0" prefWidth="370.0">
         <columns>
           <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="Cod Carte" />
-          <TableColumn fx:id="tableColumnTitle" prefWidth="164.00001525878906" text="Titul" />
-            <TableColumn fx:id="tableColumnAuthor" prefWidth="129.20001220703125" text="Autor" />
+          <TableColumn fx:id="tableColumnTitle" prefWidth="99.199951171875" text="Titul" />
+            <TableColumn fx:id="tableColumnAuthor" prefWidth="91.19996643066406" text="Autor" />
+            <TableColumn fx:id="tableColumnBorrow" prefWidth="103.20001220703125" text="Borrowed" />
         </columns>
       </TableView>
-      <TextField layoutX="453.0" layoutY="46.0" prefHeight="25.0" prefWidth="82.0" promptText="Cod Carte" />
-      <TextField layoutX="568.0" layoutY="46.0" prefHeight="25.0" prefWidth="82.0" promptText="Cod Abonat" />
+      <TextField fx:id="idBookTextField" layoutX="453.0" layoutY="46.0" prefHeight="25.0" prefWidth="82.0" promptText="Cod Carte" />
+      <TextField fx:id="idSubTextField" layoutX="568.0" layoutY="46.0" prefHeight="25.0" prefWidth="82.0" promptText="Cod Abonat" />
       <TextField fx:id="titleTextField" layoutX="453.0" layoutY="90.0" prefHeight="25.0" prefWidth="198.0" promptText="Titlu" />
       <TextField fx:id="authorTextField" layoutX="453.0" layoutY="136.0" prefHeight="25.0" prefWidth="198.0" promptText="Autor" />
       <Button layoutX="453.0" layoutY="186.0" mnemonicParsing="false" onAction="#addBook" prefHeight="25.0" prefWidth="82.0" text="Adauga" />
-      <Button layoutX="561.0" layoutY="186.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Sterge" />
-      <Button layoutX="695.0" layoutY="46.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Returnare" />
+      <Button layoutX="561.0" layoutY="186.0" mnemonicParsing="false" onAction="#deleteBook" prefHeight="25.0" prefWidth="82.0" text="Sterge" />
+      <Button layoutX="695.0" layoutY="46.0" mnemonicParsing="false" onAction="#returnBook" prefHeight="25.0" prefWidth="82.0" text="Returnare" />
       <TableView fx:id="tableViewSubscribers" layoutX="43.0" layoutY="277.0" prefHeight="206.0" prefWidth="370.0">
          <columns>
             <TableColumn fx:id="tableColumnFName" prefWidth="164.00001525878906" text="Nume" />
