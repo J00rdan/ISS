@@ -26,8 +26,6 @@
 
         <!--        <mapping resource="hello/Message.hbm.xml"/>-->
         <mapping resource="librarian/hbm/Librarian.hbm.xml"/>
-        <mapping resource="book/hbm/Book.hbm.xml"/>
-        <mapping resource="subscriber/hbm/Subscriber.hbm.xml"/>
 
         <!--        <mapping resource="event/hbm/Event.hbm.xml"/>-->
         <!--        <mapping class="event.annotations.EventAnnot"/>-->

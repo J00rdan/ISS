@@ -3,20 +3,44 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
 }
-group 'org.example'
+
+group 'com.example'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
+ext {
+    junitVersion = '5.7.1'
+}
+
+sourceCompatibility = '14'
+targetCompatibility = '14'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+application {
+    mainModule = 'com.example.library'
+    mainClass = 'com.example.library.HelloApplication'
+}
+
 javafx {
-    modules = [ 'javafx.controls', 'javafx.fxml'  ]
+    version = '14.0.2.1'
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation('org.controlsfx:controlsfx:11.1.0')
+    implementation('com.dlsc.formsfx:formsfx-core:11.3.2') {
+        exclude(group: 'org.openjfx')
+    }
+    implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.0'
 
@@ -24,10 +48,7 @@ dependencies {
     implementation 'org.hibernate:hibernate-core:6.0.0.Final'
 
     implementation 'org.javassist:javassist:3.28.0-GA'
-}
 
-application{
-    mainClass='HelloApplication'
 }
 
 test {
